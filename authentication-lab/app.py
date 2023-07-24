@@ -65,9 +65,9 @@ def add_tweet():
             "title" : request.form['title'],
             "text" : request.form['text'],
             "userid" : login_session['user']['localId']
-
-
         }
+        db.child("Tweets").push(tweet)
+        return redirect(url_for('viewtweets'))
     return render_template("add_tweet.html")
 
 @app.route('/home', methods=['GET', 'POST'])
@@ -78,6 +78,12 @@ def signout():
     login_session['user'] = None
     auth.current_user = None
     return redirect(url_for("signin"))
+
+@app.route('/viewtweets' , methods=['GET' , 'POST'])
+def viewtweets():
+    tweets = db.child("Tweets").get().val()
+    return render_template("tweets.html" , tweets=tweets)
+
 
 
 if __name__ == '__main__':

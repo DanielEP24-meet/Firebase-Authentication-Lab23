@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tweets</title>
+</head>
+<body>
+    {% for tweet in tweets %}
+    <p>author: {{ tweets[tweet]['userid'] }}</p>
+    <h3>Title: {{ tweets[tweet]['title'] }}</h3>
+    <p>{{ tweets[tweet]['text'] }}</p>
+    <div></div>
+    <br>
+    {% endfor %}
+</body>
+</html>
