@@ -5,7 +5,25 @@
     <title>Title</title>
 </head>
 <body>
-    Great Job!
+    <form method="post" action="/">
+        <div>
+            <label>Title*</label>
+            <div>
+                <input type="text"  name="title" required>
+            </div>
+        </div>
+
+        <div>
+            <label>Text*</label>
+            <div class="input-group">
+                <input type="text"  name="text" maxlength="280">
+            </div>
+        </div>
+
+        <div>
+            <input type="submit"/>
+        </div>
+    </form>>
     <a href="/home">Home page</a>
 </body>
 </html>

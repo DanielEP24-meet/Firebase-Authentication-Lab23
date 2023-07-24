@@ -13,11 +13,12 @@ firebaseConfig = {
   "messagingSenderId": "149651312873",
   "appId": "1:149651312873:web:f41c78579cdd16bad06078",
   "measurementId": "G-9BXGJFTCKN",
-  "databaseURL" : ""
+  "databaseURL" : "https://myfirebaseapp-meet-default-rtdb.europe-west1.firebasedatabase.app"
 }
 
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
+db = firebase.database()
 
 
 
@@ -28,6 +29,7 @@ def signin():
         password = request.form['password']
         try:
             login_session['user'] = auth.sign_in_with_email_and_password(email , password)
+
             return redirect(url_for("add_tweet"))
         except:
             return render_template("signin.html")
@@ -42,6 +44,14 @@ def signup():
         password = request.form['password']
         try:
             login_session['user'] = auth.create_user_with_email_and_password(email, password)
+            userid = login_session['user']['localId']
+            user = {
+                "email" : email,
+                "fullname" : request.form['fullname'],
+                "username" : request.form['username'],
+                "bio" : request.form['bio']
+            }
+            db.child("Users").child(userid).set(user)
             return redirect(url_for("add_tweet"))
         except:
             return render_template("signup.html")
@@ -50,6 +60,14 @@ def signup():
 
 @app.route('/add_tweet', methods=['GET', 'POST'])
 def add_tweet():
+    if request.method == 'POST':
+        tweet = {
+            "title" : request.form['title'],
+            "text" : request.form['text'],
+            "userid" : login_session['user']['localId']
+
+
+        }
     return render_template("add_tweet.html")
 
 @app.route('/home', methods=['GET', 'POST'])
